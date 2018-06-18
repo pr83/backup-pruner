@@ -237,3 +237,7 @@ docker run \
    `d` (day), `w` (week), `M` (month), `y` (year). They are case-sensitive -
    pay attention to the difference between month (`M`) and minute (`m`).
    The units can be combined, e.g. `1h30m` for one hour and 30 minutes.
+   
+## Docker Hub repository
+
+https://hub.docker.com/r/any3w/backup-pruner/
