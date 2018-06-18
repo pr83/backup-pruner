@@ -1,0 +1,1 @@
+puts ENV[:JAVA_HOME.to_s]

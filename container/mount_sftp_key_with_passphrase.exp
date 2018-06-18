@@ -1,0 +1,6 @@
+#!/usr/bin/expect -f
+
+spawn -ignore HUP sshfs -o IdentityFile="$env(private_key_copy_file)" -o StrictHostKeyChecking=no "$env(SFTP_USER)@$env(SFTP_HOSTNAME):$env(SFTP_DIRECTORY)" /root/sftp-drive
+expect "Enter passphrase for key \'$env(private_key_copy_file)\':"
+send "$env(SFTP_KEY_PASSPHRASE)\n";
+interact

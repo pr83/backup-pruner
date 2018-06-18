@@ -1,0 +1,32 @@
+<html>
+
+    <h1>Backup files pruning report</h1>
+
+    <h2>Files to retain</h2>
+    <ul>
+        {{#elements_retained}}
+            <li>{{.}}</li>
+        {{/elements_retained}}
+    </ul>
+
+    {{#do_prune}}
+        <h2>Files deleted</h2>
+    {{/do_prune}}
+
+    {{^do_prune}}
+        <h2>Files which would be deleted</h2>
+    {{/do_prune}}
+
+    {{#deleted}}
+        <ul>
+            {{#elements_deleted}}
+            <li>{{.}}</li>
+            {{/elements_deleted}}
+        </ul>
+    {{/deleted}}
+
+    {{^deleted}}
+        <em>(no files)</em>
+    {{/deleted}}
+
+</html>
