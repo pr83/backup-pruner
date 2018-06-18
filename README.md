@@ -2,7 +2,7 @@
 
 *Backup pruner* is a tool helping with regular cleanup of old backups.
 
-It periodically scans a given directory (filesystem and S3 are currently
+It periodically scans a given directory (filesystem, S3 and SFTP are currently
 supported) containing the backups, removing files which are likely the least
 valuable ones, preventing the directory from unlimited growth.
 
@@ -178,6 +178,49 @@ The following variables control SMTP:
  * `S3_ACCESS_KEY` - S3 access key
  * `S3_SECRET_KEY` - S3 secret key
  * `S3_BUCKET` - S3 bucket ID
+ 
+## SFTP-specific settings
+
+ * `STORAGE_TYPE` - to scan files on an SFTP server, set to `SFTP`
+ * `SFTP_HOSTNAME` - server hostname
+ * `SFTP_DIRECTORY` - directory (on the SFTP server) to scan
+ * `SFTP_USER` - SFTP server user name
+ * `SFTP_PASSWORD` - SFTP server user password (if using password authentication)
+ * `SFTP_PRIVATE_KEY` - path to the private key (if using key authentication) on the Docker instance
+   (this option will be typically used in conjunction with a directory mapping `-v`)
+ * `SFTP_KEY_PASSPHRASE` - private key passphrase; used if `SFTP_PRIVATE_KEY` is used and the key is
+    passphrase-protected (if the key is not passphrase-protected, simply do not mention this environment variable)
+ 
+**example:**
+
+```
+docker run \
+    --privileged \
+    --name backup-pruner \
+    --rm \
+    --env OPTIMAL_COUNT_CONFIG='1d: 1, 7d: 5, 30d: 8, 90d: 12, 365d: 15' \
+    --env STORAGE_TYPE='SFTP' \
+    --env SFTP_HOSTNAME='server.example.com' \
+    --env SFTP_DIRECTORY='/var/backups' \
+    --env SFTP_USER='test' \
+    --env SFTP_PRIVATE_KEY='/tmp/id_rsa' \
+    --env SFTP_KEY_PASSPHRASE='s3cre1' \
+    --env SCAN_INTERVAL='5m' \
+    --env SEND_EMAIL='true' \
+    --env LONGEST_DELAY_BETWEEN_EMAILS='10m' \
+    --env SMTP_HOSTNAME='mail.example.com' \
+    --env SMTP_PORT='465' \
+    --env SMTP_DOMAIN='example.com' \
+    --env SMTP_USER='admin@example.com' \
+    --env SMTP_PASSWORD='s3cre1' \
+    --env SMTP_ENABLE_SSL='true' \
+    --env EMAIL_FROM='admin@example.com' \
+    --env EMAIL_TO='test@example.com' \
+    --env EMAIL_SUBJECT='Backup prune results' \
+    --env DO_PRUNE=false \
+    -v "/user/test/.ssh/id_rsa:/tmp/id_rsa" \
+    any3w/backup-pruner
+```
  
 ## Filesystem-specific settings
 
