@@ -19,7 +19,12 @@ if [ "$STORAGE_TYPE" == "S3" ]; then
     chmod 600 ~/.passwd-s3fs
 
     mkdir ~/s3-drive
-    s3fs ${S3_BUCKET} ~/s3-drive
+
+    if [ -z "${S3_ENDPOINT}" ]; then
+        s3fs ${S3_BUCKET} ~/s3-drive
+    else
+        s3fs ${S3_BUCKET} ~/s3-drive -o use_path_request_style,url=${S3_ENDPOINT}
+    fi
 
     export DIRECTORY='/root/s3-drive'
 

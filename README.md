@@ -178,6 +178,7 @@ The following variables control SMTP:
  * `S3_ACCESS_KEY` - S3 access key
  * `S3_SECRET_KEY` - S3 secret key
  * `S3_BUCKET` - S3 bucket ID
+ * `S3_ENDPOINT` - URL of the S3 endpoint if using an alternative S3-compatible server, example: `http://minio.example.com:9000`; do *not* define if using S3 on AWS (which is very likely the case) 
  
 ## SFTP-specific settings
 
